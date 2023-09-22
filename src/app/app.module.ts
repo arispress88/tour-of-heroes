@@ -7,6 +7,10 @@ import { FormsModule } from '@angular/forms';
 import { HeroDetailComponent } from './hero-detail/hero-detail.component';
 import { MessagesComponent } from './messages/messages.component';
 import { DashboardComponent } from './dashboard/dashboard.component'; // <-- NgModel lives here
+import { HttpClientModule } from '@angular/common/http'; // <-- import the HttpClientModule
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api'; // <-- import the HttpClientInMemoryWebApiModule
+import { InMemoryDataService } from './in-memory-data.service';
+import { HeroSearchComponent } from './hero-search/hero-search.component'; // <-- import the InMemoryDataService class
 
 @NgModule({
   declarations: [
@@ -14,12 +18,21 @@ import { DashboardComponent } from './dashboard/dashboard.component'; // <-- NgM
     HeroesComponent,
     HeroDetailComponent,
     MessagesComponent,
-    DashboardComponent
+    DashboardComponent,
+    HeroSearchComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule // <-- import the FormsModule before binding with [(ngModel)]
+    FormsModule, // <-- import the FormsModule before binding with [(ngModel)]
+    HttpClientModule, // <-- add the HttpClientModule to the @NgModule imports array
+
+    // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
+    // and returns simulated server responses.
+    // Remove it when a real server is ready to receive requests.
+    HttpClientInMemoryWebApiModule.forRoot(
+      InMemoryDataService, { dataEncapsulation: false }
+    )
   ],
   providers: [],
   bootstrap: [AppComponent]
